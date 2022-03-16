@@ -1,0 +1,20 @@
+[
+    {
+        "id": 0,
+        "title": "Black T-Shirt",
+        "price": 7.95,
+        "image": "shirt"
+    },
+    {
+        "id": 1,
+        "title": "Black Hoodie",
+        "price": 13,
+        "image": "hoodie"
+    },
+    {
+        "id": 2,
+        "title": "Black Cap",
+        "price": 23,
+        "image": "cap"
+    }
+]
