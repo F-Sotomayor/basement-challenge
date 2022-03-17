@@ -57,29 +57,25 @@ const CartItem: FC<Props> = ({
             <div className="flex text-2xl justify-evenly basis-[40%] items-center">
               <button
                 className={size === "S" ? "border rounded-full w-[40px]" : "w-[40px]"}
-                value="S"
-                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+                onClick={() => onSizeChange("S")}
               >
                 S
               </button>
               <button
                 className={size === "M" ? "border rounded-full w-[40px]" : "w-[40px]"}
-                value="M"
-                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+                onClick={() => onSizeChange("M")}
               >
                 M
               </button>
               <button
                 className={size === "L" ? "border rounded-full w-[40px]" : "w-[40px]"}
-                value="L"
-                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+                onClick={() => onSizeChange("L")}
               >
                 L
               </button>
               <button
                 className={size === "XL" ? "border rounded-full w-[40px]" : "w-[40px]"}
-                value="XL"
-                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+                onClick={() => onSizeChange("XL")}
               >
                 XL
               </button>

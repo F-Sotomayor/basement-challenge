@@ -41,7 +41,14 @@ const Home: NextPage<Props> = ({products}) => {
   }, [draftCart]);
 
   function handleCartAdd(product: Product) {
-    setDraftCart((cart) => cart.concat(product));
+    const id = `${product.id}-${product.size}`;
+    const isInCart = draftCart.some((item) => item.id === id);
+
+    if (isInCart) {
+      handleQuantityAdd(id);
+    } else {
+      setDraftCart((cart) => cart.concat({...product, id: id}));
+    }
   }
 
   function handleQuantityAdd(id: string) {
