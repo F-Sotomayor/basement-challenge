@@ -98,7 +98,10 @@ const Home: NextPage<Props> = ({products}) => {
 
   return (
     <div className="md:h-auto md:flex md:bg-black md:max-w-7xl md:m-auto md:flex-col md:relative h-auto min-h-screen">
-      <Header cart={{quantity: 1}} onCartOpen={() => toggleCartOpen(!isCartOpen)} />
+      <Header
+        cart={{quantity: cart.reduce((acc, item) => (acc = acc + 1), 0)}}
+        onCartOpen={() => toggleCartOpen(!isCartOpen)}
+      />
       <div className="md:flex md:mt-12 md:w-full md:justify-between md:items-center md:h- md:flex-row flex flex-col items-center">
         {products.map((product: Product) => {
           return (
