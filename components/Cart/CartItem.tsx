@@ -30,9 +30,9 @@ const CartItem: FC<Props> = ({
   },
 }) => {
   return (
-    <div className="flex w-full h-[300px] mt-12 p-4 border">
+    <div className="flex w-full md:h-[300px] h-[200px] md:mt-12 mt-8 md:p-4 p-2 border">
       <div
-        className="flex basis-[30%] mr-8"
+        className="flex md:basis-[30%] md:mr-8 basis-[50%] mr-2"
         style={{
           background:
             "linear-gradient(0deg, rgba(28,28,28,1) 1%, rgba(23,23,23,1) 42%, rgba(7,7,7,1) 62%, rgba(0,0,0,1) 100%)",
@@ -40,21 +40,21 @@ const CartItem: FC<Props> = ({
       >
         <Image alt="Product Image" height="100%" src={`/${image}.png`} width="300%" />
       </div>
-      <div className="flex flex-col basis-[70%]">
-        <div className="text-4xl text-white">{title}</div>
-        <div className="text-2xl text-gray-500 flex flex-1">{description}</div>
+      <div className="flex flex-col md:basis-[70%] basis-[40%]">
+        <div className="md:text-4xl text-white">{title}</div>
+        <div className="md:text-2xl text-gray-500 flex flex-1">{description}</div>
         <div className="flex">
-          <div className="text-2xl mr-4"> QUANTITY : </div>
-          <div className="flex border rounded-full w-[100px] justify-evenly items-center text-2xl">
+          <div className="md:text-2xl md:mr-4 mr-2"> QUANTITY : </div>
+          <div className="flex border rounded-full md:w-[100px] w-[75px] justify-evenly items-center md:text-2xl">
             <button onClick={onQuantityRest}>-</button>
             {quantity}
             <button onClick={onQuantityAdd}>+</button>
           </div>
         </div>
         <div className="flex w-full mt-4">
-          <div className="text-2xl mr-4 flex items-center">SIZE:</div>
-          <div className="flex w-full justify-between">
-            <div className="flex text-2xl justify-evenly basis-[40%] items-center">
+          <div className="md:text-2xl mr-4 flex items-center">SIZE:</div>
+          <div className="flex md:w-full md:justify-between flex-col md:flex-row justify-center">
+            <div className="flex md:text-2xl justify-evenly md: basis-[40%] items-center">
               <button
                 className={size === "S" ? "border rounded-full w-[40px]" : "w-[40px]"}
                 onClick={() => onSizeChange("S")}
@@ -80,9 +80,10 @@ const CartItem: FC<Props> = ({
                 XL
               </button>
             </div>
-            <div className="flex text-4xl">${price}</div>
+            <div className="md:flex md:text-4xl hidden">${price}</div>
           </div>
         </div>
+        <div className="flex md:text-4xl md:hidden text-2xl mt-2 md:mt-0">${price}</div>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const ProductCard: VFC<Props> = ({product: {image, title, price, onCartAdd}}) =>
             "linear-gradient(0deg, rgba(28,28,28,1) 1%, rgba(23,23,23,1) 42%, rgba(7,7,7,1) 62%, rgba(0,0,0,1) 100%)",
         }}
       >
-        <div className="absolute z-50">
+        <div className="absolute md:z-50 bottom-5 md:bottom-5 z-10">
           <button onClick={onCartAdd}>
             <Image alt="Add To Cart" src={addToCart} />
           </button>

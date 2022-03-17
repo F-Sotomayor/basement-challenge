@@ -30,29 +30,29 @@ const api = {
 
 const Home: NextPage<Props> = ({products}) => {
   const [isCartOpen, toggleCartOpen] = React.useState<boolean>(false);
-  const [draftCart, setDraftCart] = React.useState<Product[]>([]);
+  const [cart, setCart] = React.useState<Product[]>([]);
 
   React.useEffect(() => {
-    api.fetch().then(setDraftCart);
+    api.fetch().then(setCart);
   }, []);
 
   React.useEffect(() => {
-    api.save(draftCart);
-  }, [draftCart]);
+    api.save(cart);
+  }, [cart]);
 
   function handleCartAdd(product: Product) {
     const id = `${product.id}-${product.size}`;
-    const isInCart = draftCart.some((item) => item.id === id);
+    const isInCart = cart.some((item) => item.id === id);
 
     if (isInCart) {
       handleQuantityAdd(id);
     } else {
-      setDraftCart((cart) => cart.concat({...product, id: id}));
+      setCart((cart) => cart.concat({...product, id: id}));
     }
   }
 
   function handleQuantityAdd(id: string) {
-    setDraftCart((finalCart) =>
+    setCart((finalCart) =>
       finalCart.map((product) =>
         product.id !== id
           ? product
@@ -65,7 +65,7 @@ const Home: NextPage<Props> = ({products}) => {
   }
 
   function handleQuantityRest(id: string) {
-    setDraftCart((finalCart) =>
+    setCart((finalCart) =>
       finalCart.map((product) =>
         product.id !== id
           ? product
@@ -78,7 +78,7 @@ const Home: NextPage<Props> = ({products}) => {
   }
 
   function handleSizeChange(id: string, size: string) {
-    setDraftCart((finalCart) =>
+    setCart((finalCart) =>
       finalCart.map((product) =>
         product.id !== id
           ? product
@@ -92,13 +92,14 @@ const Home: NextPage<Props> = ({products}) => {
   }
 
   function handleCheckout() {
-    console.table(draftCart);
+    console.table(cart);
+    setCart([]);
   }
 
   return (
-    <div className="h-auto flex bg-black max-w-7xl m-auto flex-col relative">
+    <div className="md:h-auto md:flex md:bg-black md:max-w-7xl md:m-auto md:flex-col md:relative h-auto min-h-screen">
       <Header cart={{quantity: 1}} onCartOpen={() => toggleCartOpen(!isCartOpen)} />
-      <div className="flex mt-12 w-full  justify-between items-center h-full">
+      <div className="md:flex md:mt-12 md:w-full md:justify-between md:items-center md:h- md:flex-row flex flex-col items-center">
         {products.map((product: Product) => {
           return (
             <ProductCard
@@ -112,7 +113,7 @@ const Home: NextPage<Props> = ({products}) => {
 
       {isCartOpen === true && (
         <Cart
-          cart={draftCart}
+          cart={cart}
           cartClose={() => toggleCartOpen(false)}
           onCheckout={handleCheckout}
           onQuantityAdd={handleQuantityAdd}

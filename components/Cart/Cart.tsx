@@ -35,18 +35,18 @@ const Cart: FC<Props> = ({
 
   return (
     <div
-      className="fixed top-0 right-0 w-full min-h-full h-auto flex justify-end z-[100] overflow-visible"
+      className="md:fixed md:top-0 md:right-0 md:w-full md:min-h-full md:h-auto flex md:justify-end md:z-[100] fixed top-0 left-0 h-screen z-50"
       style={{backgroundColor: "rgba(0, 0, 0, 0.83)"}}
     >
       <div className="max-w-7xl mx-auto w-full">
-        <div className="bg-black flex flex-col w-4/6 h-5/6 ml-auto">
+        <div className="bg-black flex flex-col md:w-4/6 md:h-5/6 md:ml-auto p-4 md:p-0 h-screen">
           <div className="flex w-full justify-end p-4 text-2xl">
             <button onClick={cartClose}>CLOSE</button>
           </div>
           <div className="flex w-full justify-center  mt-8 font-bold">
             <Image alt="YOUR CART" src={yourCart} />
           </div>
-          <div className="flex flex-1 p-4 flex-col">
+          <div className="flex flex-1 p-4 flex-col overflow-auto md:max-h-[90vh]">
             {cart ? (
               cart.map((cartItem: Product) => {
                 return (
@@ -70,17 +70,17 @@ const Cart: FC<Props> = ({
               <div>No tenes nada en el carrito</div>
             )}
           </div>
-          <div className="flex w-full h-16">
-            <div className="flex justify-start items-center basis-[60%] border pl-8 text-4xl">
-              TOTAL: $
+          <div className="flex w-full h-32 justify-evenly md:justify-start md:h-16 flex-col md:flex-row">
+            <div className="flex justify-between md:justify-start items-center md:basis-[60%] md:border md:pl-8 text-4xl border-b-2">
+              <div> TOTAL:</div> $
               {cart.reduce((acc, item) => {
                 acc = Math.round(acc + item.price * item.quantity);
 
                 return acc;
               }, 0)}
             </div>
-            <div className="flex justify-center items-center border basis-[40%]">
-              <button className="flex justify-center items-center">
+            <div className="flex justify-center items-center md:border md:basis-[40%] ">
+              <button className="flex justify-center items-center flex-1">
                 <Image alt="CHECKOUT" src={checkout} onClick={onCheckout} />
               </button>
             </div>
