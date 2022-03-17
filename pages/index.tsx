@@ -23,12 +23,69 @@ export async function getStaticProps() {
   };
 }
 
+const api = {
+  fetch: async () => JSON.parse(localStorage.getItem("draftOrder") || "[]"),
+  save: async (products: Product[]) => localStorage.setItem("draftOrder", JSON.stringify(products)),
+};
+
 const Home: NextPage<Props> = ({products}) => {
   const [isCartOpen, toggleCartOpen] = React.useState<boolean>(false);
   const [draftCart, setDraftCart] = React.useState<Product[]>([]);
 
+  React.useEffect(() => {
+    api.fetch().then(setDraftCart);
+  }, []);
+
+  React.useEffect(() => {
+    api.save(draftCart);
+  }, [draftCart]);
+
   function handleCartAdd(product: Product) {
     setDraftCart((cart) => cart.concat(product));
+  }
+
+  function handleQuantityAdd(id: string) {
+    setDraftCart((finalCart) =>
+      finalCart.map((product) =>
+        product.id !== id
+          ? product
+          : {
+              ...product,
+              quantity: product.quantity + 1,
+            },
+      ),
+    );
+  }
+
+  function handleQuantityRest(id: string) {
+    setDraftCart((finalCart) =>
+      finalCart.map((product) =>
+        product.id !== id
+          ? product
+          : {
+              ...product,
+              quantity: product.quantity > 0 ? product.quantity - 1 : 0,
+            },
+      ),
+    );
+  }
+
+  function handleSizeChange(id: string, size: string) {
+    setDraftCart((finalCart) =>
+      finalCart.map((product) =>
+        product.id !== id
+          ? product
+          : {
+              ...product,
+              size: size,
+              id: id + size,
+            },
+      ),
+    );
+  }
+
+  function handleCheckout() {
+    console.table(draftCart);
   }
 
   return (
@@ -46,7 +103,16 @@ const Home: NextPage<Props> = ({products}) => {
       </div>
       <Footer />
 
-      {isCartOpen === true && <Cart cart={draftCart} cartClose={() => toggleCartOpen(false)} />}
+      {isCartOpen === true && (
+        <Cart
+          cart={draftCart}
+          cartClose={() => toggleCartOpen(false)}
+          onCheckout={handleCheckout}
+          onQuantityAdd={handleQuantityAdd}
+          onQuantityRest={handleQuantityRest}
+          onSizeChange={handleSizeChange}
+        />
+      )}
     </div>
   );
 };

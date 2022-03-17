@@ -1,5 +1,6 @@
 import Image from "next/image";
 import {FC} from "react";
+import React from "react";
 
 interface Props {
   cartItem: {
@@ -8,13 +9,25 @@ interface Props {
     quantity: number;
     price: number;
     image: string;
+    size: string;
     onQuantityAdd: () => void;
     onQuantityRest: () => void;
+    onSizeChange: (size: string) => void;
   };
 }
 
 const CartItem: FC<Props> = ({
-  cartItem: {title, description, quantity, price, image, onQuantityAdd, onQuantityRest},
+  cartItem: {
+    title,
+    description,
+    quantity,
+    price,
+    image,
+    size,
+    onQuantityAdd,
+    onQuantityRest,
+    onSizeChange,
+  },
 }) => {
   return (
     <div className="flex w-full h-[300px] mt-12 p-4 border">
@@ -42,10 +55,34 @@ const CartItem: FC<Props> = ({
           <div className="text-2xl mr-4 flex items-center">SIZE:</div>
           <div className="flex w-full justify-between">
             <div className="flex text-2xl justify-evenly basis-[40%] items-center">
-              <button className="border rounded-full w-[40px]">S</button>
-              <button className="w-[40px]">M</button>
-              <button className="w-[40px]">L</button>
-              <button className="w-[40px]">XL</button>
+              <button
+                className={size === "S" ? "border rounded-full w-[40px]" : "w-[40px]"}
+                value="S"
+                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+              >
+                S
+              </button>
+              <button
+                className={size === "M" ? "border rounded-full w-[40px]" : "w-[40px]"}
+                value="M"
+                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+              >
+                M
+              </button>
+              <button
+                className={size === "L" ? "border rounded-full w-[40px]" : "w-[40px]"}
+                value="L"
+                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+              >
+                L
+              </button>
+              <button
+                className={size === "XL" ? "border rounded-full w-[40px]" : "w-[40px]"}
+                value="XL"
+                onClick={(e) => onSizeChange((e.target as HTMLButtonElement).value)}
+              >
+                XL
+              </button>
             </div>
             <div className="flex text-4xl">${price}</div>
           </div>

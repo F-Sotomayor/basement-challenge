@@ -10,12 +10,21 @@ import CartItem from "./CartItem";
 
 interface Props {
   cart: Product[];
+  onSizeChange: Function;
+  onQuantityAdd: Function;
+  onQuantityRest: Function;
+  onCheckout: VoidFunction;
   cartClose: VoidFunction;
 }
 
-const Cart: FC<Props> = ({cartClose, cart}) => {
-  const [finalCart, setFinalCart] = React.useState<Product[]>(cart);
-
+const Cart: FC<Props> = ({
+  cartClose,
+  cart,
+  onSizeChange,
+  onQuantityAdd,
+  onQuantityRest,
+  onCheckout,
+}) => {
   React.useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -23,32 +32,6 @@ const Cart: FC<Props> = ({cartClose, cart}) => {
       document.body.style.overflow = "auto";
     };
   }, []);
-
-  function handleQuantityAdd(id: number) {
-    setFinalCart((finalCart) =>
-      finalCart.map((product) =>
-        product.id !== id
-          ? product
-          : {
-              ...product,
-              quantity: product.quantity++,
-            },
-      ),
-    );
-  }
-
-  function handleQuantityRest(id: number) {
-    setFinalCart((finalCart) =>
-      finalCart.map((product) =>
-        product.id !== id
-          ? product
-          : {
-              ...product,
-              quantity: product.quantity--,
-            },
-      ),
-    );
-  }
 
   return (
     <div
@@ -64,8 +47,8 @@ const Cart: FC<Props> = ({cartClose, cart}) => {
             <Image alt="YOUR CART" src={yourCart} />
           </div>
           <div className="flex flex-1 p-4 flex-col">
-            {finalCart ? (
-              finalCart.map((cartItem: Product) => {
+            {cart ? (
+              cart.map((cartItem: Product) => {
                 return (
                   <CartItem
                     key={cartItem.id}
@@ -75,8 +58,10 @@ const Cart: FC<Props> = ({cartClose, cart}) => {
                       image: cartItem.image,
                       price: Math.round(cartItem.price * cartItem.quantity),
                       quantity: cartItem.quantity,
-                      onQuantityAdd: () => handleQuantityAdd(cartItem.id),
-                      onQuantityRest: () => handleQuantityRest(cartItem.id),
+                      size: cartItem.size,
+                      onSizeChange: (size) => onSizeChange(cartItem.id, size),
+                      onQuantityAdd: () => onQuantityAdd(cartItem.id),
+                      onQuantityRest: () => onQuantityRest(cartItem.id),
                     }}
                   />
                 );
@@ -88,7 +73,7 @@ const Cart: FC<Props> = ({cartClose, cart}) => {
           <div className="flex w-full h-16">
             <div className="flex justify-start items-center basis-[60%] border pl-8 text-4xl">
               TOTAL: $
-              {finalCart.reduce((acc, item) => {
+              {cart.reduce((acc, item) => {
                 acc = Math.round(acc + item.price * item.quantity);
 
                 return acc;
@@ -96,7 +81,7 @@ const Cart: FC<Props> = ({cartClose, cart}) => {
             </div>
             <div className="flex justify-center items-center border basis-[40%]">
               <button className="flex justify-center items-center">
-                <Image alt="CHECKOUT" src={checkout} />
+                <Image alt="CHECKOUT" src={checkout} onClick={onCheckout} />
               </button>
             </div>
           </div>
