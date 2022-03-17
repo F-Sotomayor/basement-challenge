@@ -8,7 +8,7 @@ interface Props {
   product: Product;
 }
 
-const ProductCard: VFC<Props> = ({product: {image, title, price}}) => {
+const ProductCard: VFC<Props> = ({product: {image, title, price, onCartAdd}}) => {
   return (
     <div className="flex flex-col" style={{height: "500px", width: "300px"}}>
       <div
@@ -19,7 +19,7 @@ const ProductCard: VFC<Props> = ({product: {image, title, price}}) => {
         }}
       >
         <div className="absolute z-50">
-          <button>
+          <button onClick={onCartAdd}>
             <Image alt="Add To Cart" src={addToCart} />
           </button>
         </div>

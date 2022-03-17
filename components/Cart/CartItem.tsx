@@ -8,10 +8,14 @@ interface Props {
     quantity: number;
     price: number;
     image: string;
+    onQuantityAdd: () => void;
+    onQuantityRest: () => void;
   };
 }
 
-const CartItem: FC<Props> = ({cartItem: {title, description, quantity, price, image}}) => {
+const CartItem: FC<Props> = ({
+  cartItem: {title, description, quantity, price, image, onQuantityAdd, onQuantityRest},
+}) => {
   return (
     <div className="flex w-full h-[300px] mt-12 p-4 border">
       <div
@@ -29,9 +33,9 @@ const CartItem: FC<Props> = ({cartItem: {title, description, quantity, price, im
         <div className="flex">
           <div className="text-2xl mr-4"> QUANTITY : </div>
           <div className="flex border rounded-full w-[100px] justify-evenly items-center text-2xl">
-            <button>-</button>
+            <button onClick={onQuantityRest}>-</button>
             {quantity}
-            <button>+</button>
+            <button onClick={onQuantityAdd}>+</button>
           </div>
         </div>
         <div className="flex w-full mt-4">

@@ -4,14 +4,18 @@ import Image from "next/image";
 
 import yourCart from "../../public/your-cart.svg";
 import checkout from "../../public/checkout.png";
+import {Product} from "../../product/types";
 
 import CartItem from "./CartItem";
 
-interface Cart {
+interface Props {
+  cart: Product[];
   cartClose: VoidFunction;
 }
 
-const Cart: FC<Cart> = ({cartClose}) => {
+const Cart: FC<Props> = ({cartClose, cart}) => {
+  const [finalCart, setFinalCart] = React.useState<Product[]>(cart);
+
   React.useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -20,9 +24,35 @@ const Cart: FC<Cart> = ({cartClose}) => {
     };
   }, []);
 
+  function handleQuantityAdd(id: number) {
+    setFinalCart((finalCart) =>
+      finalCart.map((product) =>
+        product.id !== id
+          ? product
+          : {
+              ...product,
+              quantity: product.quantity++,
+            },
+      ),
+    );
+  }
+
+  function handleQuantityRest(id: number) {
+    setFinalCart((finalCart) =>
+      finalCart.map((product) =>
+        product.id !== id
+          ? product
+          : {
+              ...product,
+              quantity: product.quantity--,
+            },
+      ),
+    );
+  }
+
   return (
     <div
-      className="fixed top-0 right-0 w-full h-full flex justify-end"
+      className="fixed top-0 right-0 w-full min-h-full h-auto flex justify-end z-[100] overflow-visible"
       style={{backgroundColor: "rgba(0, 0, 0, 0.83)"}}
     >
       <div className="max-w-7xl mx-auto w-full">
@@ -33,20 +63,36 @@ const Cart: FC<Cart> = ({cartClose}) => {
           <div className="flex w-full justify-center  mt-8 font-bold">
             <Image alt="YOUR CART" src={yourCart} />
           </div>
-          <div className="flex flex-1 p-4">
-            <CartItem
-              cartItem={{
-                title: "BLACK T-SHIRT",
-                description: "Unisex Basic Softstyle T-Shirt",
-                image: "shirt",
-                price: 12.5,
-                quantity: 3,
-              }}
-            />
+          <div className="flex flex-1 p-4 flex-col">
+            {finalCart ? (
+              finalCart.map((cartItem: Product) => {
+                return (
+                  <CartItem
+                    key={cartItem.id}
+                    cartItem={{
+                      title: cartItem.title,
+                      description: cartItem.description,
+                      image: cartItem.image,
+                      price: Math.round(cartItem.price * cartItem.quantity),
+                      quantity: cartItem.quantity,
+                      onQuantityAdd: () => handleQuantityAdd(cartItem.id),
+                      onQuantityRest: () => handleQuantityRest(cartItem.id),
+                    }}
+                  />
+                );
+              })
+            ) : (
+              <div>No tenes nada en el carrito</div>
+            )}
           </div>
           <div className="flex w-full h-16">
             <div className="flex justify-start items-center basis-[60%] border pl-8 text-4xl">
-              TOTAL: $37.50
+              TOTAL: $
+              {finalCart.reduce((acc, item) => {
+                acc = Math.round(acc + item.price * item.quantity);
+
+                return acc;
+              }, 0)}
             </div>
             <div className="flex justify-center items-center border basis-[40%]">
               <button className="flex justify-center items-center">

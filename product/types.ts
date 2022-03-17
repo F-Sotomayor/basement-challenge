@@ -3,4 +3,7 @@ export interface Product {
   id: number;
   price: number;
   image: string;
+  description: string;
+  quantity: number;
+  onCartAdd: () => void;
 }

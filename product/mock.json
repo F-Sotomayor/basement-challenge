@@ -1,20 +1,26 @@
 [
     {
-        "id": 0,
+        "id": 1,
         "title": "Black T-Shirt",
         "price": 7.95,
-        "image": "shirt"
-    },
-    {
-        "id": 1,
-        "title": "Black Hoodie",
-        "price": 13,
-        "image": "hoodie"
+        "image": "shirt",
+        "description": "Unisex Basic Softstyle T-Shirt",
+        "quantity": 1
     },
     {
         "id": 2,
+        "title": "Black Hoodie",
+        "price": 13,
+        "image": "hoodie",
+        "description": "Unisex Swaggy Hoodie",
+        "quantity": 1
+    },
+    {
+        "id": 3,
         "title": "Black Cap",
         "price": 23,
-        "image": "cap"
+        "image": "cap",
+        "description": "Unisex Simple but amazing Cap"
+        
     }
 ]

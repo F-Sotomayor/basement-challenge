@@ -10,6 +10,7 @@ import {Product} from "../product/types";
 
 interface Props {
   products: Product[];
+  onCartAdd: (product: Product) => Product[];
 }
 
 export async function getStaticProps() {
@@ -24,18 +25,28 @@ export async function getStaticProps() {
 
 const Home: NextPage<Props> = ({products}) => {
   const [isCartOpen, toggleCartOpen] = React.useState<boolean>(false);
+  const [draftCart, setDraftCart] = React.useState<Product[]>([]);
+
+  function handleCartAdd(product: Product) {
+    setDraftCart((cart) => cart.concat(product));
+  }
 
   return (
     <div className="h-auto flex bg-black max-w-7xl m-auto flex-col relative">
       <Header cart={{quantity: 1}} onCartOpen={() => toggleCartOpen(!isCartOpen)} />
       <div className="flex mt-12 w-full  justify-between items-center h-full">
         {products.map((product: Product) => {
-          return <ProductCard key={product.id} product={product} />;
+          return (
+            <ProductCard
+              key={product.id}
+              product={{...product, onCartAdd: () => handleCartAdd(product)}}
+            />
+          );
         })}
       </div>
       <Footer />
 
-      {isCartOpen === true && <Cart cartClose={() => toggleCartOpen(false)} />}
+      {isCartOpen === true && <Cart cart={draftCart} cartClose={() => toggleCartOpen(false)} />}
     </div>
   );
 };
