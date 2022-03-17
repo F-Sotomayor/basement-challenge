@@ -31,3 +31,4 @@ npm run dev
 
 ## Modalidad de entrega
 * Repositorio público subido a GitHub, Gitlab, Bitbucket.
+* Live Demo: https://basement-challenge-psi.vercel.app/
